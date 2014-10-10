@@ -17,22 +17,10 @@ public class Display {
 	 * @param y The current y value of the domoeter in cm
 	 * @param theta The current value of theta (amount the robot has rotated) in radians
 	 */
-	public static void print(final double x, final double y, final double theta, final int observations, final Localizer.Position start){
+	public static void print(final double x, final double y, final double theta, final int observations, final Position start){
 		new Thread(new Runnable(){ public void run(){
 			String sx = formattedDoubleToString((((double)start.getX()) - 0.5)*Odometer.TILE_SIZE, 2);
 			String sy = formattedDoubleToString((((double)start.getY()) - 0.5)*Odometer.TILE_SIZE, 2);
-			String dir;
-			switch(start.getDir()){
-			case DOWN:
-				dir = "S"; break;
-			case LEFT:
-				dir = "W"; break;
-			case RIGHT:
-				dir = "E"; break;
-			case UP:
-				dir = "N"; break;
-			default:
-				throw new RuntimeException("Shouldn't Happen");}
 			
 			LCD.clear();
 			// clear the lines for displaying odometry information
@@ -40,7 +28,9 @@ public class Display {
 			LCD.drawString("Y:                  ", 0, 1);
 			LCD.drawString("T:                  ", 0, 2);
 			LCD.drawString("Observations: " + observations, 0, 3);
-			LCD.drawString("Start: (" + sx + ", " + sy + "), " + dir, 0, 4);
+			LCD.drawString("Start: ", 0, 4);
+			LCD.drawString("(" + sx + ", " + sy + ")", 0, 5);
+			LCD.drawString(start.getDir().asCardinal(), 0, 6);
 			LCD.drawString(formattedDoubleToString(x, 2), 3, 0);
 			LCD.drawString(formattedDoubleToString(y, 2), 3, 1);
 			LCD.drawString(formattedDoubleToString(theta, 2), 3, 2);}}).start();}

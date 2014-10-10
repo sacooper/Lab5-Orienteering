@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
@@ -37,30 +35,28 @@ public class Lab5 {
 		Localizer l;
 		
 		Display.printMainMenu();
-		int option = Button.waitForAnyPress(), obs;
+		int option = Button.waitForAnyPress(), observationsMade;
 		odo.start();
+		
 		switch (option){
-		case STOCHASTIC:
-			l = new Localizer(us, odo, driver, Localizer.LocalizationType.STOCHASTIC);
-			obs = l.localize();
-			Display.print(odo.getX(), odo.getY(), odo.getTheta(), obs, l.getStartingPoint());
-			break;
-		case DETERMINISTIC:
-			l = new Localizer(us, odo, driver, Localizer.LocalizationType.DETERMINISTIC);
-			obs = l.localize();
-			Display.print(odo.getX(), odo.getY(), odo.getTheta(), obs, l.getStartingPoint());
-			break;
-		case DEMO:
-			l = new Localizer(us, odo, driver, Localizer.LocalizationType.DETERMINISTIC);
-			obs = l.localize();
-			Display.print(odo.getX(), odo.getY(), odo.getTheta(), obs, l.getStartingPoint());
-			
-			// TODO: travel to (75, 75) and face 0 while avoiding blocks
-			
-			break;
-		default:
-			System.exit(0);
-		}
+			case STOCHASTIC:
+				l = new Localizer(us, odo, driver, Localizer.LocalizationType.STOCHASTIC);
+				observationsMade = l.localize();
+				Display.print(odo.getX(), odo.getY(), odo.getTheta(), observationsMade, l.getStartingPoint());
+				break;
+			case DETERMINISTIC:
+				l = new Localizer(us, odo, driver, Localizer.LocalizationType.DETERMINISTIC);
+				observationsMade = l.localize();
+				Display.print(odo.getX(), odo.getY(), odo.getTheta(), observationsMade, l.getStartingPoint());
+				break;
+			case DEMO:
+				l = new Localizer(us, odo, driver, Localizer.LocalizationType.DETERMINISTIC);
+				observationsMade = l.localize();
+				Display.print(odo.getX(), odo.getY(), odo.getTheta(), observationsMade, l.getStartingPoint());
+				driver.demo();
+				break;
+			default:
+				System.exit(0);}
 
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 		System.exit(0);

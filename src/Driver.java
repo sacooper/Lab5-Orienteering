@@ -15,9 +15,9 @@ public class Driver {
 		FORWARD_SPEED = 250,
 		LOCALIZE_SPEED = 100;
 	
-	private static final double 
-		WHEEL_BASE = 15.5,
-		WHEEL_RADIUS = 2.16;
+	public static final double 
+		WHEEL_BASE = 15.6,
+		WHEEL_RADIUS = 2.13;
 	
 	private double thetar, xr, yr;
 	private boolean navigating;
@@ -131,6 +131,35 @@ public class Driver {
 		return this.navigating;
 	}
 	
+	public void demo(){
+		int y;
+		double x;
+		synchronized(odo){
+			x = odo.getX();
+			y = (int) (Math.round(odo.getY() / Odometer.TILE_SIZE) + .5);}
+		switch(y){
+		case 0:
+			this.travel(x, 15);
+		case 1:
+			this.travel(15, 15);
+			this.travel(15, 75);
+			this.travel(75,75);
+			break;
+		case 2:
+			this.travel(15, 45);
+			this.travel(15, 75);
+		case 3:
+			this.travel(75, 75);
+			break;
+		default:
+			throw new RuntimeException("???");
+		}
+		double theta;
+		synchronized(odo){
+			theta = odo.getTheta();}
+		this.turnTo(-theta);
+		
+	}
 	/**
 	 * Returns degrees to turn servos in order to rotate robot by that amount
 	 * 

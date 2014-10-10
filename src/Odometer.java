@@ -17,9 +17,6 @@ public class Odometer extends Thread {
 	private static final int ODOMETER_PERIOD = 15;
 	//LCD update period
 	
-	private static final double WHEEL_BASE = 15.5,
-								WHEEL_RADIUS = 2.16;
-	
 	public static final double TILE_SIZE = 30.46;
 	
 	/*variables*/ 
@@ -63,14 +60,14 @@ public class Odometer extends Thread {
 			currentTachoL = Lab5.LEFT_MOTOR.getTachoCount();
 			currentTachoR = Lab5.RIGHT_MOTOR.getTachoCount();
 			
-			leftDistance = 3.14159 * WHEEL_RADIUS * (currentTachoL - previousTachoL) / 180;
-			rightDistance = 3.14159 * WHEEL_RADIUS * (currentTachoR - previousTachoR) / 180;
+			leftDistance = 3.14159 * Driver.WHEEL_RADIUS * (currentTachoL - previousTachoL) / 180;
+			rightDistance = 3.14159 * Driver.WHEEL_RADIUS * (currentTachoR - previousTachoR) / 180;
 			
 			previousTachoL = currentTachoL;
 			previousTachoR = currentTachoR;
 			
 			deltaDistance = .5 * (leftDistance + rightDistance);
-			deltaTheta = (leftDistance - rightDistance) / WHEEL_BASE;
+			deltaTheta = (leftDistance - rightDistance) / Driver.WHEEL_BASE;
 
 			synchronized (this) {
 				// don't use the variables x, y, or theta anywhere but here!
