@@ -157,8 +157,7 @@ public class Driver {
 		double theta;
 		synchronized(odo){
 			theta = odo.getTheta();}
-		this.turnTo(-theta);
-		
+		this.turnTo(-Math.toDegrees(theta));		
 	}
 	/**
 	 * Returns degrees to turn servos in order to rotate robot by that amount

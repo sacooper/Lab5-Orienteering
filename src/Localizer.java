@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-
-import lejos.nxt.LCD;
 import lejos.nxt.UltrasonicSensor;
 
 public class Localizer {
@@ -59,7 +57,7 @@ public class Localizer {
 	 */
 	public int localize() {
 		// Only used for stochastic localization
-		Random r = new Random();	
+		Random r = new Random(System.nanoTime());	
 		
 		// Current direction relative to where we started
 		Direction current = Direction.UP;	
@@ -77,13 +75,8 @@ public class Localizer {
 				Position s = iter.next();
 				if (!Localizer.valid(s, new Position(x, y, current, blocked))){
 					iter.remove();}}
-
 			
-			LCD.clear();
-			LCD.drawString(blocked + "" , 0, 0);
-			LCD.drawString("# possible: " + possible.size(), 0, 1);
-			LCD.drawString("Relative Location:", 0, 2);
-			LCD.drawString(x + ", " + y + ", " + current.toString(), 0, 3);
+			Display.printLocalizationInfo(x, y, current, blocked, possible.size());
 			
 			if (possible.size() == 1) break;
 			
@@ -96,14 +89,14 @@ public class Localizer {
 					if (r.nextBoolean()){
 						driver.turnTo(-90);
 						current = Position.rotateLeft(current);
-					} else
+					} else{
 						driver.goForward(Odometer.TILE_SIZE);
 						switch(current){
 						case DOWN: y--; break;
 						case LEFT: x--; break;
 						case RIGHT: x++; break;
 						case UP: y++; break;
-						default: throw new RuntimeException("Shouldn't Happen");}}
+						default: throw new RuntimeException("Shouldn't Happen");}}}
 				break;
 			case DETERMINISTIC:
 				if (blocked) {
@@ -148,10 +141,17 @@ public class Localizer {
 			default: throw new RuntimeException("Shouldn't Happen");}
 			odo.setX((((double)startingPoint.getX()) - 0.5)*Odometer.TILE_SIZE + odo_x);
 			odo.setY((((double)startingPoint.getY()) - 0.5)*Odometer.TILE_SIZE + odo_y);
-			odo.setThetaRad(odo.getTheta() - 0.5 * ((double)startingPoint.getDir().v) * (Math.PI));}
+			odo.setThetaRad(odo.getTheta() - (0.5 * ((double)startingPoint.getDir().v) * (Math.PI)));}
 		return observations;	
 	}
 	
+	/***
+	 * Get the starting point resulting from localization or
+	 * null if localization has not occurred yet
+	 * 
+	 * @return The starting point resulting from localization or
+	 * null if localization has not occured yet
+	 */
 	public Position getStartingPoint(){
 		return startingPoint;}
 	

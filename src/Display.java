@@ -17,7 +17,7 @@ public class Display {
 	 * @param y The current y value of the domoeter in cm
 	 * @param theta The current value of theta (amount the robot has rotated) in radians
 	 */
-	public static void print(final double x, final double y, final double theta, final int observations, final Position start){
+	public static void printDemoInfo(final double x, final double y, final double theta, final int observations, final Position start){
 		new Thread(new Runnable(){ public void run(){
 			String sx = formattedDoubleToString((((double)start.getX()) - 0.5)*Odometer.TILE_SIZE, 2);
 			String sy = formattedDoubleToString((((double)start.getY()) - 0.5)*Odometer.TILE_SIZE, 2);
@@ -35,6 +35,14 @@ public class Display {
 			LCD.drawString(formattedDoubleToString(y, 2), 3, 1);
 			LCD.drawString(formattedDoubleToString(theta, 2), 3, 2);}}).start();}
 
+	public static void printLocalizationInfo(int x, int y, Direction current, boolean blocked, int size){
+		new Thread(new Runnable(){ public void run(){
+			LCD.clear();
+			LCD.drawString(blocked + "" , 0, 0);
+			LCD.drawString("# possible: " + size, 0, 1);
+			LCD.drawString("Relative Location:", 0, 2);
+			LCD.drawString(x + ", " + y + ", " + current.toString(), 0, 3);
+		}}).start();}
 	private static String formattedDoubleToString(double x, int places) {
 		String result = "";
 		String stack = "";

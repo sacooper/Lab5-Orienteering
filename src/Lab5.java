@@ -42,18 +42,19 @@ public class Lab5 {
 			case STOCHASTIC:
 				l = new Localizer(us, odo, driver, Localizer.LocalizationType.STOCHASTIC);
 				observationsMade = l.localize();
-				Display.print(odo.getX(), odo.getY(), odo.getTheta(), observationsMade, l.getStartingPoint());
+				Display.printDemoInfo(odo.getX(), odo.getY(), odo.getTheta(), observationsMade, l.getStartingPoint());
 				break;
 			case DETERMINISTIC:
 				l = new Localizer(us, odo, driver, Localizer.LocalizationType.DETERMINISTIC);
 				observationsMade = l.localize();
-				Display.print(odo.getX(), odo.getY(), odo.getTheta(), observationsMade, l.getStartingPoint());
+				Display.printDemoInfo(odo.getX(), odo.getY(), odo.getTheta(), observationsMade, l.getStartingPoint());
 				break;
 			case DEMO:
 				l = new Localizer(us, odo, driver, Localizer.LocalizationType.DETERMINISTIC);
 				observationsMade = l.localize();
-				Display.print(odo.getX(), odo.getY(), odo.getTheta(), observationsMade, l.getStartingPoint());
+				Display.printDemoInfo(odo.getX(), odo.getY(), odo.getTheta(), observationsMade, l.getStartingPoint());
 				driver.demo();
+				Display.printDemoInfo(odo.getX(), odo.getY(), odo.getTheta(), observationsMade, l.getStartingPoint());
 				break;
 			default:
 				System.exit(0);}
